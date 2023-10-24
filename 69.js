@@ -1,5 +1,9 @@
-let left = 1;
-let right = 4;
+const Sqrt = (x) => {
+  r = x;
 
+  while(r * r > x){
+    r = ((r + x / r) / 2) | 0
+  }
 
-console.log(right - left >> 1); 
+  return r
+}
