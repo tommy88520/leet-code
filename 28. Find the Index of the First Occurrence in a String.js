@@ -6,7 +6,6 @@
 var strStr = function(haystack, needle) {
   if (needle == "") return 0
   if(!haystack || needle.length > haystack.length) return -1;
-  let i, j;
   for (let i = 0; i < haystack.length; i++){
     const str = haystack.substring(i, needle.length + i)
     if (str == needle) return i

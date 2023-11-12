@@ -1,36 +1,85 @@
 class Node {
-  constructor(data, next = null){
-    this.data = data;
+  constructor(value, next = null) {
+    this.value = value;
     this.next = next;
   }
- }
+}
 
- const n1 = new Node(100)
+const n1 = new Node(100);
 
- class LinkedList {
-  constructor(){
+class LinkedList {
+  constructor() {
     this.head = null;
     this.size = 0;
   }
 
-  // insert first node 
-  insertFirst(node){
-    this.head = new Node(node, this.head)
+  // insert first node == unshift
+  insertFirst(node) {
+    this.head = new Node(node, this.head);
     this.size++;
   }
 
+  pop() {
+    if (!this.head) {
+      return null;
+    } else if (this.size === 1) {
+      let temp = this.head;
+      this.head = null;
+      this.size = 0;
+      return temp;
+    } else {
+      let current = this.head;
+
+      for (let i = 1; i <= this.size - 2; i++) {
+        current = current.next;
+      }
+
+      let temp = current.next;
+      current.next = null;
+      this.size--;
+      return temp;
+    }
+  }
+
+  shift() {
+    if (!this.head) return null;
+
+    if (this.size == 1) {
+      let temp = this.head;
+      this.head = null;
+      this.size = 0;
+      return temp;
+    } else {
+      // let pre = this.head;
+      let current = this.head;
+
+      while (current.next) {
+        this.head = this.head.next;
+      }
+      this.size--;
+      return current;
+    }
+  }
+
+  unshift(value) {
+    this.head = new Node(value, this.head);
+    this.size++;
+
+    // return this.head;
+  }
+
   // insert last node
-  insertLast(data) {
-    let node = new Node(data)
+  insertLast(value) {
+    let node = new Node(value);
     let current;
 
     // if empty , make head
     if (!this.head) {
       this.head = node;
     } else {
-      current = this.head
+      current = this.head;
 
-      while(current.next) {
+      while (current.next) {
         current = current.next;
       }
 
@@ -41,73 +90,83 @@ class Node {
   }
 
   // insert at index
-  insertAt(data, index){
-    if (index > 0 && index > this.size) {
-      return;
+  insertAt(value, index) {
+    if (index < 0 || index > this.size) {
+      return null;
     }
 
     if (index === 0) {
-      this.insertFirst(data)
+      this.insertFirst(value);
       return;
     }
 
-    const node = new Node(data);
+    let newNode = new Node(value);
     let current, previous;
-    
+
     current = this.head;
     let count = 0;
 
-    while(count < index) {
-      previous = current;
+    while (count < index - 1) {
+      // previous = current;
       count++;
+      // console.log(count);
       current = current.next;
     }
 
-    node.next = current;
-    previous.next = node;
-    this.size++
-
+    newNode.next = current.next;
+    current.next = newNode;
+    // previous.next = node;
+    this.size++;
   }
 
   // get index
   getAt(index) {
+    if (index < 0 || index > this.size - 1) {
+      return;
+    }
+
     let current = this.head;
     let count = 0;
 
     while (current) {
       if (count == index) {
-        console.log(current.data)
+        console.log(current.value);
       }
       count++;
       current = current.next;
     }
-    
+
     return null;
   }
 
   //remove at index
   remove(index) {
-    if (index > 0 && index > this.size) {
+    if (index < 0 || index > this.size - 1) {
       return;
     }
     let current = this.head;
     let prev;
     let count = 0;
 
-    if(index == 0) {
+    if (index == 0) {
       this.head = current.next;
+      // or
+      // let result = this.shift();
+      // return result
     } else {
-      while(count < index) {
+      while (count < index - 1) {
         count++;
-        prev = current;
+        // prev = current;
         current = current.next;
       }
+      console.log(111, current.next.value);
 
-      prev.next = current.next;
+      // prev.next = current.next;
+
+      current.next = current.next.next;
     }
 
-    this.size--
-
+    this.size--;
   }
 
   //clear all List elements
@@ -117,25 +176,28 @@ class Node {
     this.size = 0;
   }
 
-  printListData(){
+  printListvalue() {
     let current = this.head;
     while (current) {
-      console.log(current.data)
+      console.log(current.value);
       current = current.next;
     }
   }
- }
+}
 
- const ll = new LinkedList()
+const ll = new LinkedList();
 
- ll.insertFirst(100)
- ll.insertFirst(200)
- ll.insertFirst(300)
- ll.insertLast(400)
- ll.insertAt(500,2)
- ll.remove(3)
+ll.unshift(100);
+ll.insertFirst(200);
+ll.insertFirst(300);
+ll.unshift(400);
+ll.unshift(1000);
+// ll.pop();
+ll.insertAt(500, 2);
+// ll.remove(2);
 
- console.log(ll)
+// console.log(ll);
 
-// ll.getAt(2)
-//  ll.printListData()
+ll.getAt(3);
+// console.log(ll.size);
+// ll.printListvalue();
